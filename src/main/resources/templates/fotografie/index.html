@@ -2,9 +2,19 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:insert="fragments/resources :: headResources('home')"></head>
 <body>
-<h1>Questa è la tua homepage</h1>
-<div class="card bg-dark">
-<p class="text-light">Ciao</p>
+<div class="container">
+    <h1>Questa è la tua homepage</h1>
+
+    <div th:each="foto :${list}" th:object="${foto}" class="card" style="width: 18rem;">
+        <img th:src="*{url}" class="card-img-top" alt="...">
+        <div class="card-body">
+            <h5 th:text= "*{titolo}"class="card-title"></h5>
+            <p th:text="*{descrizione}"class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            <a href="#" class="btn btn-primary">Dettagli</a>
+        </div>
+    </div>
+</div>
+
 </div>
 </body>
 </html>

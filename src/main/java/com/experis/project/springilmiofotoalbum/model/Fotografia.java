@@ -21,11 +21,6 @@ public class Fotografia {
     @ManyToMany
     private List<Categoria> categorie;
 
-    //costruttore per impostare che all'inizio ogni foto sarà visibile
-    public Fotografia(boolean visibile) {
-        this.visibile = true;
-    }
-
     public String getTitolo() {
         return titolo;
     }

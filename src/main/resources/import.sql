@@ -1,0 +1,1 @@
+INSERT INTO fotoalbum_db.fotografie(id, descrizione, titolo, url, visibile)VALUES(1, 'bella foto', 'eccomi', 'https://www.nationalgeographic.it/upload/ngi-image/img-13098-vulcano.png?w=710&h=474', 1);
