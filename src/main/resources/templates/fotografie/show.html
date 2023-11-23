@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="fragments/resources :: headResources('show')"></head>
+<body>
+<div class="container my-3">
+    <h1>Puoi vedere i dettagli della foto</h1>
+    <div th:each="foto : ${fotografia}" th:object="${foto}">
+        <div class="d-flex my-5">
+            <div class="dettagli" style="margin-right:50px;">
+                <h3 th:text="*{titolo}"></h3>
+                <p th:text="*{descrizione}"></p>
+            </div>
+            <div class="card" style="width: 40rem;">
+                <img th:src="*{url}" class="card-img-top" alt="foto">
+            </div>
+        </div>
+    </div>
+    <a th:href="@{/foto}" class="btn btn-primary">indietro</a>
+</div>
+</body>
+</html>

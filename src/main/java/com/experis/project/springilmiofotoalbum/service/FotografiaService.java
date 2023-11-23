@@ -1,5 +1,6 @@
 package com.experis.project.springilmiofotoalbum.service;
 
+import com.experis.project.springilmiofotoalbum.exception.FotoNotFoundException;
 import com.experis.project.springilmiofotoalbum.model.Fotografia;
 import com.experis.project.springilmiofotoalbum.repository.FotografiaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,5 +23,22 @@ public class FotografiaService {
             //altrimenti prendo tutta la lista
             return fotografiaRepository.findAll();
         }
+    }
+
+    //metodo per l'id della foto
+    public Fotografia getFotoId(Integer id)throws FotoNotFoundException {
+        //prendiamo il risultato dell'optional che può esserci o no
+        Optional<Fotografia> result = fotografiaRepository.findById(id);
+        //se c'è allora lo ritorno
+        if (result.isPresent()){
+            return result.get();
+        }else {
+            throw new FotoNotFoundException("id della foto " + id + " non è stato trovato");
+        }
+    }
+
+    //metodo per salvare i dati sul database create
+    public Fotografia saveFotoCreate(Fotografia fotografia){
+        return fotografiaRepository.save(fotografia);
     }
 }

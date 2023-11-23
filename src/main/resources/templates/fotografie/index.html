@@ -2,17 +2,41 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:insert="fragments/resources :: headResources('home')"></head>
 <body>
-<div class="container">
-    <h1>Questa è la tua homepage</h1>
+<div class="container my-3">
 
-    <div th:each="foto :${list}" th:object="${foto}" class="card" style="width: 18rem;">
-        <img th:src="*{url}" class="card-img-top" alt="...">
-        <div class="card-body">
-            <h5 th:text= "*{titolo}"class="card-title"></h5>
-            <p th:text="*{descrizione}"class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-            <a href="#" class="btn btn-primary">Dettagli</a>
+    <div class="row d-flex align-items-center justify-content-around my-3">
+        <h1 class="col-6">Questa è la tua homepage</h1>
+        <form
+                th:action="@{/foto}"
+                method="GET"
+                class="col-3" style="margin-right: 30px;"
+        >
+            <div class="input-group">
+                <input
+                        class="form-control"
+                        type="text"
+                        placeholder="Cerca una foto"
+                        name="search"
+                        th:value="${param.search}"
+                >
+                <button class="btn btn-primary">Cerca</button>
+            </div>
+        </form>
+    </div>
+    <div class="col-3">
+        <a th:href="@{/foto/create}" class="btn btn-primary">Inserisci una foto</a>
+    </div>
+
+    <div class="row">
+        <div th:each="foto :${list}" th:object="${foto}" class="card p-3 m-2" style="width: 18rem;">
+            <img th:src="*{url}" class="card-img-top" alt="foto">
+            <div class="card-body">
+                <h5 th:text= "*{titolo}"class="card-title"></h5>
+                <a th:href="@{/foto/show/{id}(id = *{id})}" class="btn btn-primary">Dettagli</a>
+            </div>
         </div>
     </div>
+
 </div>
 
 </div>
