@@ -41,4 +41,12 @@ public class FotografiaService {
     public Fotografia saveFotoCreate(Fotografia fotografia){
         return fotografiaRepository.save(fotografia);
     }
+
+    //metodo per salvare una foto già presente e modificarla
+
+    public Fotografia saveFotoEdit(Fotografia fotografia){
+        Fotografia fotoToEdit = getFotoId(fotografia.getId());
+        return fotografiaRepository.save(fotografia);
+    }
+
 }

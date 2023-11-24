@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:insert="fragments/resources :: headResources('home')"></head>
+<head th:insert="fragments/resources :: headResources('index')"></head>
 <body>
 <div class="container my-3">
 
@@ -33,6 +33,7 @@
             <div class="card-body">
                 <h5 th:text= "*{titolo}"class="card-title"></h5>
                 <a th:href="@{/foto/show/{id}(id = *{id})}" class="btn btn-primary">Dettagli</a>
+                <a th:href="@{/foto/edit/{id}(id = *{id})}" class="btn btn-primary">Modifica</a>
             </div>
         </div>
     </div>

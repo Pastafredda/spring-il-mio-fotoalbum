@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:insert="fragments/resources :: headResources('create')"></head>
+<head th:insert="fragments/resources :: headResources('edit')"></head>
 <body class="bg-dark">
 <div class="container my-3">
     <h1 class="text-light">Inserisci una nuova foto </h1>
     <form
-            id="fotografia-create"
+            id="fotografia-edit"
             method="POST"
-            th:action="@{/foto/create}"
+            th:action="@{/foto/edit/{id}(id = ${fotografia.id})}"
             th:object="${fotografia}"
             class="row"
     >

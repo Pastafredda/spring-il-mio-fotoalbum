@@ -65,4 +65,31 @@ public class FotografiaController {
         Fotografia saveFoto = fotografiaService.saveFotoCreate(fotografia);
         return "redirect:/foto";
     }
+
+    //modifica
+    @GetMapping("/edit/{id}")
+    public String edit(@PathVariable Integer id, Model model){
+        try {
+            //tramite model recupero l'id
+            model.addAttribute("fotografia", fotografiaService.getFotoId(id));
+            return "fotografie/edit";
+        } catch (FotoNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
+    }
+
+    @PostMapping("/edit/{id}")
+    public String doEdit(@PathVariable Integer id, @Valid @ModelAttribute Fotografia fotografia, BindingResult bindingResult,Model model){
+        //se ci sono errori nel compilare il form
+        if (bindingResult.hasErrors()){
+            //ritorno il form
+            return "fotografie/edit";
+        }
+        try {
+            Fotografia saveFoto = fotografiaService.saveFotoEdit(fotografia);
+             return "redirect:/foto/show/" + saveFoto.getId();
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
+    }
 }
