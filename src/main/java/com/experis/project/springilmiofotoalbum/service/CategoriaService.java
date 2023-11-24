@@ -1,12 +1,15 @@
 package com.experis.project.springilmiofotoalbum.service;
 
 import com.experis.project.springilmiofotoalbum.exception.CategoriaNomeException;
+import com.experis.project.springilmiofotoalbum.exception.CategoriaNotFoundException;
 import com.experis.project.springilmiofotoalbum.model.Categoria;
 import com.experis.project.springilmiofotoalbum.repository.CategoriaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.Option;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CategoriaService {
@@ -31,6 +34,24 @@ public class CategoriaService {
             //salvo sul database
             return categoriaRepository.save(categoria);
         }
+    }
+
+    //metodo per prendere l'id della categoria
+    public Categoria getCategoriaId(Integer id)throws CategoriaNotFoundException{
+        //con l'optional può esserci o meno l'id
+        Optional<Categoria> result = categoriaRepository.findById(id);
+        //se è presente
+        if (result.isPresent()){
+            //passo l'oggetto al template
+            return result.get();
+        }else{
+            throw new CategoriaNotFoundException("id della categoria " + id + " non è stato trovato");
+        }
+    }
+
+    //metodo per l'eliminazione
+    public void deleteCategory(Integer id){
+        categoriaRepository.deleteById(id);
     }
 
 }

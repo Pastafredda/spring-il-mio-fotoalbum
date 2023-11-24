@@ -3,6 +3,10 @@
 <head th:insert="fragments/resources :: headResources('index categorie')"></head>
 <body class="bg-dark">
 <div class="container my-3">
+    <div th:if="${message != null}" class="alert alert-success alert-dismissible fade show">
+        <span th:text="${message}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Chiudi"></button>
+    </div>
     <h1 class="text-light">La lista di categorie</h1>
     <section>
         <form
@@ -28,7 +32,7 @@
             <thead>
             <tr>
                 <th>Nome ingrediente</th>
-<!--                <th>Elimina ingrediente</th>-->
+                <th>Elimina ingrediente</th>
             </tr>
             </thead>
             <tbody>
@@ -37,12 +41,12 @@
                 th:object="${categoria}"
             >
                 <td th:text="*{nome}"></td>
-<!--                <td>-->
-<!--                    <form method="POST" th:action="@{/ingredienti/delete/{id}(id= *{id})}"-->
-<!--                          onsubmit="return confirm('Vuoi davvero eliminare?')">-->
-<!--                        <button type="submit" class="btn btn-danger"><i class="fa-solid fa-minus"></i></button>-->
-<!--                    </form>-->
-<!--                </td>-->
+                <td>
+                    <form method="POST" th:action="@{/categorie/delete/{id}(id= *{id})}"
+                          onsubmit="return confirm('Vuoi davvero eliminare?')">
+                        <button type="submit" class="btn btn-danger"><i class="fa-solid fa-minus"></i></button>
+                    </form>
+                </td>
             </tr>
             </tbody>
         </table>
