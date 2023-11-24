@@ -3,9 +3,12 @@
 <head th:insert="fragments/resources :: headResources('index')"></head>
 <body>
 <div class="container my-3">
-
+    <div th:if="${message != null}" class="alert alert-success alert-dismissible fade show">
+        <span th:text="${message}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Chiudi"></button>
+    </div>
     <div class="row d-flex align-items-center justify-content-around my-3">
-        <h1 class="col-6">Questa è la tua homepage</h1>
+        <h1 class="col-6">Lista di foto</h1>
         <form
                 th:action="@{/foto}"
                 method="GET"
@@ -32,8 +35,12 @@
             <img th:src="*{url}" class="card-img-top" alt="foto">
             <div class="card-body">
                 <h5 th:text= "*{titolo}"class="card-title"></h5>
-                <a th:href="@{/foto/show/{id}(id = *{id})}" class="btn btn-primary">Dettagli</a>
-                <a th:href="@{/foto/edit/{id}(id = *{id})}" class="btn btn-primary">Modifica</a>
+                <a th:href="@{/foto/show/{id}(id = *{id})}" class="btn btn-primary"><i class="fa-solid fa-camera"></i></a>
+                <a th:href="@{/foto/edit/{id}(id = *{id})}" class="btn btn-primary"><i class="fa-solid fa-pen-to-square"></i></a>
+                <form method="POST" th:action="@{/foto/delete/{id}(id=*{id})}"
+                      onsubmit="return confirm('Vuoi davvero eliminare?')">
+                    <button type="submit" class="btn btn-danger"><i class="fa-solid fa-minus"></i></button>
+                </form>
             </div>
         </div>
     </div>

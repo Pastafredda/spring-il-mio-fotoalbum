@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.naming.Binding;
 import java.util.Optional;
@@ -89,6 +90,23 @@ public class FotografiaController {
             Fotografia saveFoto = fotografiaService.saveFotoEdit(fotografia);
              return "redirect:/foto/show/" + saveFoto.getId();
         } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
+    }
+
+    @PostMapping("/delete/{id}")
+    public String delete(@PathVariable Integer id, RedirectAttributes redirectAttributes){
+        //Se esiste la elimino altrimenti eccezione
+        try {
+            //recupero la foto con id
+            Fotografia fotografia = fotografiaService.getFotoId(id);
+            //la elimino
+            fotografiaService.deleteFoto(id);
+            //messaggio di avvenuta eliminazione
+            redirectAttributes.addFlashAttribute("message", "la foto: " + fotografia.getTitolo()+ " è stata eliminata");
+            //ritorno alla lista
+            return "redirect:/foto";
+        } catch (FotoNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
     }

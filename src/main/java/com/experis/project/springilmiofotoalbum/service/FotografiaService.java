@@ -49,4 +49,9 @@ public class FotografiaService {
         return fotografiaRepository.save(fotografia);
     }
 
+    //Metodo l'eliminazione
+    public void deleteFoto(Integer id){
+        fotografiaRepository.deleteById(id);
+    }
+
 }
