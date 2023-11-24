@@ -2,6 +2,7 @@ package com.experis.project.springilmiofotoalbum.controller;
 
 import com.experis.project.springilmiofotoalbum.exception.FotoNotFoundException;
 import com.experis.project.springilmiofotoalbum.model.Fotografia;
+import com.experis.project.springilmiofotoalbum.service.CategoriaService;
 import com.experis.project.springilmiofotoalbum.service.FotografiaService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,9 @@ public class FotografiaController {
 
     @Autowired
     FotografiaService fotografiaService;
+
+    @Autowired
+    CategoriaService categoriaService;
 
     //lista e filtro attraverso il titolo
     @GetMapping
@@ -50,6 +54,8 @@ public class FotografiaController {
     public String create(Model model){
         //creazione di una nuova foto attualmente vuota
         model.addAttribute("fotografia", new Fotografia());
+        //aggiungo la lista delle categorie
+        model.addAttribute("categorie", categoriaService.getAll());
         return "fotografie/create";
     }
 
@@ -58,9 +64,11 @@ public class FotografiaController {
     //bindingResult catcha gli errori
     //model attribute ci per ricaricare la pagina con i campi compilati in caso di errore
     @PostMapping("/create")
-    public String store(@Valid @ModelAttribute("fotografia") Fotografia fotografia, BindingResult bindingResult){
+    public String store(@Valid @ModelAttribute("fotografia") Fotografia fotografia, BindingResult bindingResult, Model model){
         //Se ci sono errori ricarico la pagina con il form compilato
         if (bindingResult.hasErrors()){
+            //Aggiungo il model e richiamo la lista delle categorie in caso di errori
+            model.addAttribute("categorie",categoriaService.getAll());
             return "fotografie/create";
         }
         Fotografia saveFoto = fotografiaService.saveFotoCreate(fotografia);
@@ -73,6 +81,8 @@ public class FotografiaController {
         try {
             //tramite model recupero l'id
             model.addAttribute("fotografia", fotografiaService.getFotoId(id));
+            //come nella create richiamo la lista di categoria
+            model.addAttribute("categorie", categoriaService.getAll());
             return "fotografie/edit";
         } catch (FotoNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
@@ -83,6 +93,8 @@ public class FotografiaController {
     public String doEdit(@PathVariable Integer id, @Valid @ModelAttribute Fotografia fotografia, BindingResult bindingResult,Model model){
         //se ci sono errori nel compilare il form
         if (bindingResult.hasErrors()){
+            //nel caso di errore la lista di categorie sparirebbe quindi la richiamiamo
+            model.addAttribute("categorie", categoriaService.getAll());
             //ritorno il form
             return "fotografie/edit";
         }

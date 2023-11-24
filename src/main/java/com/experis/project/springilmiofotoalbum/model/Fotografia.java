@@ -25,7 +25,7 @@ public class Fotografia {
     private String url;
     private boolean visibile;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     private List<Categoria> categorie;
 
     public Integer getId() {

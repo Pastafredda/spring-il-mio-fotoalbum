@@ -14,7 +14,19 @@
                 <img th:src="*{url}" class="card-img-top" alt="foto">
             </div>
         </div>
+        <div class="col-6">
+            <h3>Categoria della foto</h3>
+            <ul class="list-unstyled" th:if=" *{categorie.size()> 0}">
+                <li  th:each="categoria : *{categorie}"
+                    th:text="${categoria.nome}"></li>
+            </ul>
+            <div th:if="*{categorie.size() == 0}" class="alert alert-info">
+                La lista è vuota
+            </div>
+        </div>
     </div>
+
+
     <a th:href="@{/foto}" class="btn btn-primary">indietro</a>
 </div>
 </body>
