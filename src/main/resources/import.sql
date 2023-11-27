@@ -26,3 +26,7 @@ INSERT INTO fotoalbum_db.`user`(email, first_name, last_name, password)VALUES('m
 INSERT INTO fotoalbum_db.user_roles(user_id, roles_id)VALUES(1, 1);
 INSERT INTO fotoalbum_db.user_roles(user_id, roles_id)VALUES(1, 2);
 INSERT INTO fotoalbum_db.user_roles(user_id, roles_id)VALUES(2, 2);
+
+--messaggi
+INSERT INTO fotoalbum_db.messaggi(id, email, testo)VALUES(1, 'mario@email.com', 'Bellissime foto complimenti');
+INSERT INTO fotoalbum_db.messaggi(id, email, testo)VALUES(2, 'antonio@email.com', 'Complimenti per le foto');
