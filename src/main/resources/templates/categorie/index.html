@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org">
 <head th:insert="fragments/resources :: headResources('index categorie')"></head>
 <body class="bg-dark">
 <div class="container my-3">
@@ -16,7 +16,7 @@
                 method="POST"
                 class="row"
         >
-            <div class="col-5 my-4"
+            <div sec:authorize="hasAuthority('ADMIN')" class="col-5 my-4"
                  th:insert="fragments/components :: formField('text','Nome categoria', 'nome')">
 
             </div>
@@ -32,7 +32,7 @@
             <thead>
             <tr>
                 <th>Nome ingrediente</th>
-                <th>Elimina ingrediente</th>
+                <th sec:authorize="hasAuthority('ADMIN')" >Elimina ingrediente</th>
             </tr>
             </thead>
             <tbody>
@@ -41,27 +41,11 @@
                 th:object="${categoria}"
             >
                 <td th:text="*{nome}"></td>
-                <td>
-                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                        <i class="fa-solid fa-minus"></i>
-                    </button>
+                <td sec:authorize="hasAuthority('ADMIN')">
+                    <form method="POST" th:action="@{/categorie/delete/{id}(id= *{id})}" onsubmit="return confirm('Vuoi davvero eliminare?')">
+                        <button type="submit"  class="btn btn-danger"> <i class="fa-solid fa-minus"></i></button>
+                    </form>
                 </td>
-                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h1 class="modal-title fs-5" id="exampleModalLabel">Sei sicuro di voler eliminare la foto?</h1>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
-                                <form method="POST" th:action="@{/categorie/delete/{id}(id= *{id})}">
-                                    <button type="submit" data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn btn-danger">Elimina</button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </tr>
             </tbody>
         </table>

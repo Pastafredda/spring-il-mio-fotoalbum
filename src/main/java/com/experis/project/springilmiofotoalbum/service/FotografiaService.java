@@ -25,6 +25,17 @@ public class FotografiaService {
         }
     }
 
+    //metodo per api per la lista di tutte le foto visibili
+    public List<Fotografia> getFotoListApi(Optional<String> searchString) {
+        // Se il parametro è presente filtro la lista per nome è visibilità
+        if (searchString.isPresent()) {
+            return fotografiaRepository.findByTitoloContainingIgnoreCaseAndVisibileTrue(searchString.get());
+        } else {
+            // Altrimenti ritorno lista completa
+            return fotografiaRepository.findByVisibileTrue();
+        }
+    }
+
     //metodo per l'id della foto
     public Fotografia getFotoId(Integer id)throws FotoNotFoundException {
         //prendiamo il risultato dell'optional che può esserci o no
@@ -46,7 +57,12 @@ public class FotografiaService {
 
     public Fotografia saveFotoEdit(Fotografia fotografia){
         Fotografia fotoToEdit = getFotoId(fotografia.getId());
-        return fotografiaRepository.save(fotografia);
+        fotoToEdit.setTitolo(fotografia.getTitolo());
+        fotoToEdit.setDescrizione(fotografia.getDescrizione());
+        fotoToEdit.setVisibile(fotografia.isVisibile());
+        fotoToEdit.setUrl(fotografia.getUrl());
+        fotoToEdit.setCategorie(fotografia.getCategorie());
+        return fotografiaRepository.save(fotoToEdit);
     }
 
     //Metodo l'eliminazione

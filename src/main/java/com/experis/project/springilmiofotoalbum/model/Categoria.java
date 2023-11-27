@@ -1,5 +1,6 @@
 package com.experis.project.springilmiofotoalbum.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import org.hibernate.annotations.OnDelete;
@@ -21,6 +22,7 @@ public class Categoria {
 
     @ManyToMany(mappedBy = "categorie")
     @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
     private List<Fotografia> fotografie;
 
     public Integer getId() {

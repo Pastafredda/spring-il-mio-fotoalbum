@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org">
 <head th:insert="fragments/resources :: headResources('index')"></head>
 <body class="bg-dark">
 <div class="container my-3">
@@ -10,7 +10,7 @@
     <div class="row d-flex align-items-center justify-content-around my-3">
         <div class="d-flex justify-content-between align-items-center my-4">
             <h1 class="text-light">Lista di foto</h1>
-            <h2 class="text-light">Vai alla
+            <h2 sec:authorize="hasAuthority('ADMIN')" class="text-light">Vai alla
                 <a th:href="@{/categorie}" class="btn btn-primary">lista delle categorie</a>
             </h2>
         </div>
@@ -31,58 +31,23 @@
             </div>
         </form>
     </div>
-    <div class="col-3">
+    <div class="col-3" sec:authorize="hasAuthority('ADMIN')">
         <a th:href="@{/foto/create}" class="btn btn-primary">Inserisci una foto</a>
     </div>
-
-<!--    <div class="row">-->
-<!--        <div th:each="foto :${list}" th:object="${foto}" class="card p-3 m-2" style="width: 18rem;">-->
-<!--            <img th:src="*{url}" class="card-img-top" alt="foto">-->
-<!--            <div class="card-body">-->
-<!--                <h5 th:text= "*{titolo}"class="card-title"></h5>-->
-<!--                <a th:href="@{/foto/show/{id}(id = *{id})}" class="btn btn-primary"><i class="fa-solid fa-camera"></i></a>-->
-<!--                <a th:href="@{/foto/edit/{id}(id = *{id})}" class="btn btn-primary"><i class="fa-solid fa-pen-to-square"></i></a>-->
-
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
 
     <div class="row">
         <div th:each="foto : ${list}" th:object="${foto}" class="card p-3 m-2" style="width: 18rem;">
             <img th:src="*{url}" class="card-img-top" alt="foto">
             <div class="card-body">
                 <h5 th:text="*{titolo}" class="card-title"></h5>
-                <a th:href="@{/foto/show/{id}(id=*{id})}" class="btn btn-primary"><i class="fa-solid fa-camera"></i></a>
-                <a th:href="@{/foto/edit/{id}(id=*{id})}" class="btn btn-primary"><i class="fa-solid fa-pen-to-square"></i></a>
-
-                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                    <i class="fa-solid fa-minus"></i>
-                </button>
-
-                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h1 class="modal-title fs-5" id="exampleModalLabel">Sei sicuro di voler eliminare la foto?</h1>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
-
-                                <form method="POST" th:action="@{/foto/delete/{id}(id=*{id})}">
-                                    <button type="submit" data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn btn-danger">Elimina</button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <a th:href="@{/foto/show/{id}(id=*{id})}" sec:authorize="hasAuthority('ADMIN')" class="btn btn-primary"><i class="fa-solid fa-camera"></i></a>
+                <a th:href="@{/foto/edit/{id}(id=*{id})}" sec:authorize="hasAuthority('ADMIN')" class="btn btn-primary"><i class="fa-solid fa-pen-to-square"></i></a>
+                <form method="POST" th:action="@{/foto/delete/{id}(id=*{id})}" onsubmit="return confirm('Vuoi davvero eliminare?')">
+                    <button type="submit" class="btn btn-danger"><i class="fa-solid fa-minus"></i></button>
+                </form>
             </div>
         </div>
     </div>
-
-
-
-
 </div>
 </body>
 </html>
